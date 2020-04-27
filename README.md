@@ -1,2 +1,2 @@
 # MOB1
-Module MOB1
+Module CPNV MOB1
