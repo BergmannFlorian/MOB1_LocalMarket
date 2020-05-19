@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet,} from 'react-native';
 
-export const NameView = () => {
+export const NameView = ({ navigation }) => {
   return (
     <></>
   );
