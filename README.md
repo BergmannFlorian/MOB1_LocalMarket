@@ -19,3 +19,7 @@ Android :
 # React native node module bug load
 
     npm run android --reset-cache
+
+# Run API
+
+    php artisan serv --host="192.168.25.1" --port="80"

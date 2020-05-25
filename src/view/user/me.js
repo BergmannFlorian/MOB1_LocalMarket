@@ -1,5 +1,5 @@
 import React, { useEffect, useState }  from 'react';
-import {ActivityIndicator, StyleSheet, View, Text} from 'react-native';
+import {ActivityIndicator, FlatList, StyleSheet, View, Text} from 'react-native';
 
 export const MeView = ({ navigation }) => {
   const [isLoading, setLoading] = useState(true);
@@ -15,16 +15,14 @@ export const MeView = ({ navigation }) => {
       }
     })
     .then((response) => response.json())
-    .then((json) => setData(json))
+    .then((json) => {setData(json.data); console.log(json)})
     .catch((error) => console.error(error))
     .finally(() => setLoading(false));
   }, []);
   
   return (
     <View style={{ flex: 1, padding: 24 }}>
-      {isLoading ? <ActivityIndicator/> : (
-        <Text></Text>
-      )}
+      {isLoading ? <ActivityIndicator/> : <Text>{data.firstname} {data.lastname}</Text>}
     </View>
   );
 };
