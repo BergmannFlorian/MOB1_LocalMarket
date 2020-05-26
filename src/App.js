@@ -15,17 +15,19 @@ import { HelpView } from './view/help';
 import { HomeView } from './view/home';
 import { LoginView } from './view/user/login';
 import { MeView } from './view/user/me';
+import { RegisteryView } from './view/user/registery';
 
 const Stack = createStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Registery">
         <Stack.Screen name="Home" component={HomeView} />
         <Stack.Screen name="Help" component={HelpView} />
         <Stack.Screen name="Login" component={LoginView} />
         <Stack.Screen name="Me" component={MeView} />
+        <Stack.Screen name="Registery" component={RegisteryView} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,7 +1,8 @@
-import React, { useEffect, useState }  from 'react';
-import {ActivityIndicator, FlatList, StyleSheet, View, Text} from 'react-native';
+import React  from 'react';
+import {StyleSheet, View, Text} from 'react-native';
+import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
 
-export const MeView = ({ navigation }) => {
+export const RegisteryView = ({ navigation }) => {
   
   return (
     <View style={{ flex: 1, padding: 24 }}>
