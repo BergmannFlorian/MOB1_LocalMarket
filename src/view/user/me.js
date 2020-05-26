@@ -5,7 +5,6 @@ export const MeView = ({ navigation }) => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  console.info('me line:5');
   token = '3QAqRIjWNX8XJa9Ra6wJAzEkN90I5NkmRVNUMyHbZ98fjUT07d2sxDRrg3bv';
   useEffect(() => {
     fetch('http://192.168.25.1:8000/api/me', {
@@ -15,7 +14,7 @@ export const MeView = ({ navigation }) => {
       }
     })
     .then((response) => response.json())
-    .then((json) => {setData(json.data); console.log(json)})
+    .then((json) => setData(json.data))
     .catch((error) => console.error(error))
     .finally(() => setLoading(false));
   }, []);
