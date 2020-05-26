@@ -1,5 +1,5 @@
-import React, { useEffect, useState }  from 'react';
-import {ActivityIndicator, FlatList, StyleSheet, View, Text} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {ActivityIndicator, StyleSheet, View, Text} from 'react-native';
 
 export const MeView = ({ navigation }) => {
   const [isLoading, setLoading] = useState(true);
