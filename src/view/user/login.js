@@ -1,26 +1,54 @@
-import React from 'react';
-import { StyleSheet, Button, TextInput, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, ScrollView, View, AsyncStorage } from 'react-native';
+import { Input, Button } from 'react-native-elements'
 import { Formik } from 'formik';
 
 export const LoginView = ({ navigation }) => {
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  
+  const login = (token) => {
+    fetch('http://192.168.25.1:8000/api/me', {
+      method: 'GET',
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+    .then((response) => {
+      console.log(response);
+      if(response.status == 200){
+        AsyncStorage.setItem('@localmarket:token', token);
+        navigation.navigate('Me');
+      }
+    })
+    .catch((error) => console.error(error))
+  };
+
+  _getToken = async () => {
+    const token = await AsyncStorage.getItem('@localmarket:token');
+    if (token !== null) {
+      console.log(30, token);
+      login(token);
+    }
+  };
+  _getToken();
+
   return (
     <Formik
-    initialValues={{ email: '' }}
-    onSubmit={values => console.log(values)}
-  >
+    initialValues={{ token: '3QAqRIjWNX8XJa9Ra6wJAzEkN90I5NkmRVNUMyHbZ98fjUT07d2sxDRrg3bv'}}
+    onSubmit={values => {
+      console.log(values.token);
+      login(values.token);
+    }}>
     {({ handleChange, handleBlur, handleSubmit, values }) => (
-      <View>
-        <TextInput
-          onChangeText={handleChange('email')}
-          onBlur={handleBlur('email')}
-          value={values.email}
-          placeholder={'email'}
-        />
-        <Button title="Login" onPress={() => navigation.navigate('Me')}/>
-        <Button title="Help" onPress={() => navigation.navigate('Help')}/>
-      </View>
+      <ScrollView>
+        <View style={{ flex: 1, padding: 24 }}>
+          <Input label="Token d'authentification" placeholder="Token" value={values.token}/>
+          <Button title="Se connecter" onPress={handleSubmit}/>
+        </View>
+      </ScrollView>
     )}
-  </Formik>
+    </Formik>
   )
 };
 
