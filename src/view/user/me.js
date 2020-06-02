@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {ActivityIndicator, StyleSheet, View, Text} from 'react-native';
 
-export const MeView = ({ navigation }) => {
+export const MeView = ({ route, navigation }) => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const {token} = route.params;
 
-  token = '3QAqRIjWNX8XJa9Ra6wJAzEkN90I5NkmRVNUMyHbZ98fjUT07d2sxDRrg3bv';
   useEffect(() => {
-    fetch('http://192.168.25.1:8000/api/me', {
+    fetch('http://192.168.25.1:80/api/me', {
       method: 'GET',
       headers: {
         "Authorization": "Bearer " + token

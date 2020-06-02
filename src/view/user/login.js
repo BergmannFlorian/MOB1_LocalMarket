@@ -8,17 +8,16 @@ export const LoginView = ({ navigation }) => {
   const [data, setData] = useState([]);
   
   const login = (token) => {
-    fetch('http://192.168.25.1:8000/api/me', {
+    fetch('http://192.168.25.1:80/api/me', {
       method: 'GET',
       headers: {
         "Authorization": "Bearer " + token
       }
     })
     .then((response) => {
-      console.log(response);
       if(response.status == 200){
         AsyncStorage.setItem('@localmarket:token', token);
-        navigation.navigate('Me');
+        navigation.navigate('Me', {token: token});
       }
     })
     .catch((error) => console.error(error))
@@ -27,7 +26,6 @@ export const LoginView = ({ navigation }) => {
   _getToken = async () => {
     const token = await AsyncStorage.getItem('@localmarket:token');
     if (token !== null) {
-      console.log(30, token);
       login(token);
     }
   };
