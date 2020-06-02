@@ -5,17 +5,18 @@ import { Formik } from 'formik';
 
 export const RegisteryView = ({ navigation }) => {
   
-  const registery = () => {
-    fetch('http://192.168.25.1:80/api/me', {
-      method: 'GET',
-      headers: {
-        "Authorization": "Bearer " + token
-      }
+  const registery = (values) => {
+    formData = new FormData()
+    formData.append('lastname', values.lastname);
+    formData.append('firstname', values.firstname);
+    formData.append('phonenumber', values.phonenumber);
+    fetch('http://192.168.25.1:80/api/user/apply', {
+      method: 'POST',
+      body: formData
     })
     .then((response) => {
       if(response.status == 200){
-        AsyncStorage.setItem('@localmarket:token', token);
-        navigation.navigate('Me', {token: token});
+        navigation.navigate('Login');
       }
     })
     .catch((error) => console.error(error))
@@ -24,20 +25,20 @@ export const RegisteryView = ({ navigation }) => {
   return (
     <Formik
       initialValues={{ 
-        firstname: '',
-        lastname: '',
-        phonenumber: ''
+        firstname: 'Joe',
+        lastname: 'Dalton',
+        phonenumber: '0799666666'
       }}
       onSubmit={values => {
-        console.log(values);
+        registery(values);
       }}
     >
     {({ handleChange, handleBlur, handleSubmit, values }) => (
       <ScrollView>
         <View style={{ flex: 1, padding: 24 }}>
-        <Input label="Prénom" placeholder="Prénom" onChangeText={handleChange('firstname')}/>
-        <Input label="Nom" placeholder="Nom" onChangeText={handleChange('lastname')}/>
-        <Input label="Numéro de téléphone" placeholder="Téléphone" onChangeText={handleChange('phonenumber')}/>
+        <Input label="Prénom" placeholder="Prénom" onChangeText={handleChange('firstname')} value={values.firstname}/>
+        <Input label="Nom" placeholder="Nom" onChangeText={handleChange('lastname')} value={values.lastname}/>
+        <Input label="Numéro de téléphone" placeholder="Téléphone" onChangeText={handleChange('phonenumber')} value={values.phonenumber}/>
         <Button title="Créer" onPress={handleSubmit}/>
         </View>
       </ScrollView>

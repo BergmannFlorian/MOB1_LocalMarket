@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, ScrollView, View, AsyncStorage } from 'react-native';
 import { Input, Button } from 'react-native-elements'
 import { Formik } from 'formik';
+import { RegisteryView } from './registery';
 
 export const LoginView = ({ navigation }) => {
   const [isLoading, setLoading] = useState(true);
@@ -33,7 +34,7 @@ export const LoginView = ({ navigation }) => {
 
   return (
     <Formik
-    initialValues={{ token: '3QAqRIjWNX8XJa9Ra6wJAzEkN90I5NkmRVNUMyHbZ98fjUT07d2sxDRrg3bv'}}
+    initialValues={{ token: 'TWxOIDLr84D3PvID6nUfmZQmSpGjrmSror72s1StFCoKsvx1WvvFdQVBkQnt'}}
     onSubmit={values => {
       console.log(values.token);
       login(values.token);
@@ -41,8 +42,9 @@ export const LoginView = ({ navigation }) => {
     {({ handleChange, handleBlur, handleSubmit, values }) => (
       <ScrollView>
         <View style={{ flex: 1, padding: 24 }}>
-          <Input label="Token d'authentification" placeholder="Token" value={values.token}/>
+          <Input label="Token d'authentification" placeholder="Token" onChangeText={handleChange('token')} value={values.token}/>
           <Button title="Se connecter" onPress={handleSubmit}/>
+          <Button title="S'enregistrer" onPress={() => navigation.navigate('Registery')}/>
         </View>
       </ScrollView>
     )}
