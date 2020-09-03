@@ -10,7 +10,7 @@ export const RegisteryView = ({ navigation }) => {
     formData.append('lastname', values.lastname);
     formData.append('firstname', values.firstname);
     formData.append('phonenumber', values.phonenumber);
-    fetch('http://192.168.25.1:80/api/user/apply', {
+    fetch('http://10.229.33.29:81/api/user/apply', {
       method: 'POST',
       body: formData
     })

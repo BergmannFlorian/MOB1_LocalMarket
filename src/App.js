@@ -12,8 +12,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { HelpView } from './view/help';
 import { HomeView } from './view/home';
+
 import { LoginView } from './view/user/login';
 import { MeView } from './view/user/me';
+
+import { ProductsView } from './view/products/products'
+
 import { RegisteryView } from './view/user/registery';
 import { AsyncStorage } from 'react-native';
 
@@ -22,12 +26,13 @@ const Stack = createStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Login'>
+      <Stack.Navigator initialRouteName='Home'>
         <Stack.Screen name="Home" component={HomeView} />
         <Stack.Screen name="Help" component={HelpView} />
         <Stack.Screen name="Login" component={LoginView} />
         <Stack.Screen name="Me" component={MeView} />
         <Stack.Screen name="Registery" component={RegisteryView} />
+        <Stack.Screen name="Products" component={ProductsView} />
       </Stack.Navigator>
     </NavigationContainer>
   );

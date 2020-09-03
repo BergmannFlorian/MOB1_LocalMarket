@@ -7,7 +7,7 @@ export const MeView = ({ route, navigation }) => {
   const {token} = route.params;
 
   useEffect(() => {
-    fetch('http://192.168.25.1:80/api/me', {
+    fetch('http://10.229.33.29:81/api/me', {
       method: 'GET',
       headers: {
         "Authorization": "Bearer " + token

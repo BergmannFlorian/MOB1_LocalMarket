@@ -9,7 +9,7 @@ export const LoginView = ({ navigation }) => {
   const [data, setData] = useState([]);
   
   const login = (token) => {
-    fetch('http://192.168.25.1:80/api/me', {
+    fetch('http://10.229.33.29:81/api/me', {
       method: 'GET',
       headers: {
         "Authorization": "Bearer " + token
@@ -23,9 +23,9 @@ export const LoginView = ({ navigation }) => {
     })
     .catch((error) => console.error(error))
   };
-
   _getToken = async () => {
     const token = await AsyncStorage.getItem('@localmarket:token');
+    console.log(token);
     if (token !== null) {
       login(token);
     }
@@ -36,7 +36,6 @@ export const LoginView = ({ navigation }) => {
     <Formik
     initialValues={{ token: 'TWxOIDLr84D3PvID6nUfmZQmSpGjrmSror72s1StFCoKsvx1WvvFdQVBkQnt'}}
     onSubmit={values => {
-      console.log(values.token);
       login(values.token);
     }}>
     {({ handleChange, handleBlur, handleSubmit, values }) => (

@@ -22,4 +22,4 @@ Android :
 
 # Run API
 
-    php artisan serv --host="192.168.25.1" --port="80"
+    php artisan serv --host="10.229.33.29" --port="81"
