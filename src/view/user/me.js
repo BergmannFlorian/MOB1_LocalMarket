@@ -10,9 +10,7 @@ export const MeView = ({ route, navigation }) => {
   useEffect(() => {
     fetch('http://10.229.33.29:81/api/me', {
       method: 'GET',
-      headers: {
-        "Authorization": "Bearer " + token
-      }
+      headers: {"Authorization": "Bearer " + token}
     })
     .then((response) => response.json())
     .then((json) => setData(json.data))

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, ScrollView, View, AsyncStorage } from 'react-native';
+import { StyleSheet, ScrollView, View, AsyncStorage, Alert } from 'react-native';
 import { Input, Button } from 'react-native-elements'
 import { Formik } from 'formik';
 import { RegisteryView } from './registery';
@@ -19,6 +19,8 @@ export const LoginView = ({ navigation }) => {
       if(response.status == 200){
         AsyncStorage.setItem('@localmarket:token', token);
         navigation.navigate('Me', {token: token});
+      }else{
+        Alert.alert("Token invalid");
       }
     })
     .catch((error) => console.error(error))
