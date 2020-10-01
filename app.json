@@ -1,4 +1,5 @@
 {
   "name": "MOB1_LocalMarket",
-  "displayName": "MOB1_LocalMarket"
+  "displayName": "MOB1_LocalMarket",
+  "dbUrl": "http://10.229.33.29:81"
 }

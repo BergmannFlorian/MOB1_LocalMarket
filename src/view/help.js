@@ -1,21 +1,12 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
-  View,
-  Text,
   StatusBar,
+  View,
+  Text
 } from 'react-native';
-
 import {
   Header,
   LearnMoreLinks,
@@ -24,7 +15,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-const App: () => React$Node = () => {
+export const HelpView = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -110,5 +101,3 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
 });
-
-export default App;
