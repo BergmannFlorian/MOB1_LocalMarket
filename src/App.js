@@ -10,13 +10,13 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { AsyncStorage } from 'react-native';
 
 import { HelpView } from './view/help';
 import { HomeView } from './view/home';
 import { LoginView } from './view/user/login';
 import { MeView } from './view/user/me';
-import { ProductsView } from './view/products/products'
+import { ProductsView } from './view/products/products';
+import { ProductView } from './view/products/product';
 import { RegisteryView } from './view/user/registery';
 
 const Stack = createStackNavigator();
@@ -31,6 +31,7 @@ function App() {
         <Stack.Screen name="Me" component={MeView} />
         <Stack.Screen name="Registery" component={RegisteryView} />
         <Stack.Screen name="Products" component={ProductsView} />
+        <Stack.Screen name="Product" component={ProductView} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
-import { Input, Button, Form } from 'react-native-elements'
+import { StyleSheet, View, ScrollView, Alert } from 'react-native';
+import { Input, Button } from 'react-native-elements'
 import { Formik } from 'formik';
 
 export const RegisteryView = ({ navigation }) => {
   
-  const registery = (values) => {
+  async function registery(values) {
     formData = new FormData()
     formData.append('lastname', values.lastname);
     formData.append('firstname', values.firstname);
     formData.append('phonenumber', values.phonenumber);
-    fetch('http://10.229.33.29:81/api/user/apply', {
+    const res = await axios.get(`${global.dbUrl}/api/user/apply`, {  
       method: 'POST',
       body: formData
-    })
-    .then((response) => {
-      if(response.status == 200){
-        navigation.navigate('Login');
-      }
-    })
-    .catch((error) => console.error(error))
-  };
+    });
+    if(res.status == 200)navigation.navigate('Login');
+    else Alert.alert("Une erreur est survenue");
+  }
 
   return (
     <Formik

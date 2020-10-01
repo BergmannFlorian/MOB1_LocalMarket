@@ -1,39 +1,32 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { ActivityIndicator, StyleSheet, View, TouchableOpacity, Text, AsyncStorage } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
 import { Image } from 'react-native-elements';
 
-export const ProductsView = ({ navigation }) => {
+export const ProductView = ({ route, navigation }) => {
     const [isLoading, setLoading] = useState(true);
-    const [products, setProducts] = React.useState(async () => getProducts());
+    const [product, setProduct] = React.useState(async () => getProduct(route.params));
     
-    async function getProducts() {
+    async function getProduct(productId) {
         var token = await AsyncStorage.getItem('@localmarket:token');
-        const res = await axios.get(`${global.dbUrl}/api/products`, { headers: { Authorization: `Bearer ${token}` } });
-        setProducts(res.data.data);
+        const res = await axios.get(`${global.dbUrl}/api/products/${productId}`, { headers: { Authorization: `Bearer ${token}` } });
+        setProduct(res.data.data);
         setLoading(false);
     };
 
     return (
     <View>
         {isLoading ? <ActivityIndicator/> :
-                <FlatList
-                    data={products}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity style={styles.product} onPress={() => navigation.navigate('Product', item.id)}>
-                            <Image style={styles.picture} source={{ uri: `${global.dbUrl}/storage/pictures/${item.picture}` }} />
-                            <View style={styles.informations}>
-                                <Text style={styles.title} numberOfLines={2}>{item.name}</Text>
-                                <Text style={styles.lastUpdate} numberOfLines={1} ellipsizeMode="clip" >{item.updatedAt}</Text>
-                                <Text style={styles.description} ellipsizeMode="tail" numberOfLines={1}>{item.details}</Text>
-                                <Text style={styles.stock} >📦 {item.stock} disponibles(s)</Text>
-                                <Text style={styles.price} >💰 {item.price} CHF / {item.unit}</Text>
-                            </View>
-                        </TouchableOpacity>
-                    )}
-                    keyExtractor={item => item.id}
-                />
+            <TouchableOpacity style={styles.product}>
+            <Image style={styles.picture} source={{ uri: `${global.dbUrl}/storage/pictures/${product.picture}` }} />
+            <View style={styles.informations}>
+                <Text style={styles.title} numberOfLines={2}>{product.name}</Text>
+                <Text style={styles.lastUpdate} numberOfLines={1} ellipsizeMode="clip" >{product.updatedAt}</Text>
+                <Text style={styles.description} ellipsizeMode="tail" numberOfLines={1}>{product.details}</Text>
+                <Text style={styles.stock} >📦 {product.stock} disponibles(s)</Text>
+                <Text style={styles.price} >💰 {product.price} CHF / {product.unit}</Text>
+            </View>
+        </TouchableOpacity>
         }
     </View>
   );
@@ -56,8 +49,6 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "row",
         justifyContent: "flex-start",
-        borderBottomColor: 'gray',
-        borderBottomWidth: 1,
     },
     picture: {
         borderColor: "rgba(0, 0, 0, 0.2)", //TODO to remove later
