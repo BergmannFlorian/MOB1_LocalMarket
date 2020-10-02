@@ -60,8 +60,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
     },
     picture: {
-        borderColor: "rgba(0, 0, 0, 0.2)", //TODO to remove later
-        backgroundColor: "white",
         borderWidth: 1,
         width: 150,
         height: 150,
