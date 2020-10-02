@@ -19,7 +19,7 @@ export const MeView = ({ navigation }) => {
   return (
     <View style={{ flex: 1, padding: 24 }}>
       {isLoading ? <ActivityIndicator/> : <Text>{me.firstname} {me.lastname}</Text>}
-      <Button title="Products" onPress={() => navigation.navigate('Products')}/>
+      <Button title="Products" onPress={() => navigation.navigate('Products', {screen: 'Products'})}/>
     </View>
   );
 };
