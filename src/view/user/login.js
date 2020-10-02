@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { ActivityIndicator, StyleSheet, ScrollView, View, AsyncStorage, Alert } from 'react-native';
+import { ActivityIndicator, StyleSheet, ScrollView, View, Alert } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { Input, Button } from 'react-native-elements'
 import { Formik } from 'formik';
 

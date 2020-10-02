@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Dimensions, ActivityIndicator, StyleSheet, View, TouchableOpacity, Text, AsyncStorage, ScrollView } from 'react-native';
+import { Dimensions, ActivityIndicator, StyleSheet, View, Text, ScrollView } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { Image } from 'react-native-elements';
 
 export const ProductView = ({ route, navigation }) => {

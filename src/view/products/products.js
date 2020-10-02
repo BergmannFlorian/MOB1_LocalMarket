@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { ActivityIndicator, StyleSheet, View, TouchableOpacity, Text, AsyncStorage } from 'react-native';
+import { ActivityIndicator, StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { FlatList } from 'react-native-gesture-handler';
 import { Image } from 'react-native-elements';
 

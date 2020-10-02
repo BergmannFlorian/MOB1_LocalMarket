@@ -11,10 +11,7 @@ export const RegisteryView = ({ navigation }) => {
     formData.append('lastname', values.lastname);
     formData.append('firstname', values.firstname);
     formData.append('phonenumber', values.phonenumber);
-    const res = await axios.get(`${global.dbUrl}/api/user/apply`, {  
-      method: 'POST',
-      body: formData
-    });
+    const res = await axios.post(`${global.dbUrl}/api/user/apply`, { body: formData });
     if(res.status == 200){
       Alert.alert("Inscription acceptée");
       navigation.navigate('Login');
