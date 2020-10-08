@@ -11,7 +11,7 @@ Module CPNV MOB1
     npm i  
     react-native link  
 
-Et enfin pour démarer l'application :  
+## Et enfin pour démarer l'application :  
 
     npm run android
 
