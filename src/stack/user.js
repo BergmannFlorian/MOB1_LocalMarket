@@ -9,7 +9,7 @@ const Stack = createStackNavigator();
 
 function UserStack(){
     return(
-        <Stack.Navigator initialRouteName='Me'>
+        <Stack.Navigator initialRouteName='Login'>
             <Stack.Screen name="Me" component={MeView} />
             <Stack.Screen name="Login" component={LoginView} />
             <Stack.Screen name="Registery" component={RegisteryView} />

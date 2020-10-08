@@ -13,7 +13,6 @@ export const ProductView = ({ route, navigation }) => {
         var token = await AsyncStorage.getItem('@localmarket:token');
         const res = await axios.get(`${global.dbUrl}/api/products/${productId}`, { headers: { Authorization: `Bearer ${token}` } });
         setProduct(res.data.data);
-        console.log(res.data.data);
         setLoading(false);
     };
 

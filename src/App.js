@@ -13,6 +13,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import UserStack from './stack/user';
 import ProductsStack from './stack/products';
+import { BasketView } from './view/basket';
 import { HelpView } from './view/help';
 
 const Tab = createBottomTabNavigator();
@@ -22,9 +23,10 @@ function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Me" component={UserStack} />
-        <Tab.Screen name="Products" component={ProductsStack} />
-        <Tab.Screen name="Help" component={HelpView} />
+        <Tab.Screen name="Mon compte" component={UserStack} />
+        <Tab.Screen name="Produits" component={ProductsStack} />
+        <Tab.Screen name="Panier" component={BasketView} />
+        <Tab.Screen name="Aide" component={HelpView} />
       </Tab.Navigator>
     </NavigationContainer>
   );
