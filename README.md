@@ -2,26 +2,24 @@
 Module CPNV MOB1
 
 # Installation
+## Commencez par suivre la procédure qui suit :  
 [React Native CLI Quickstart](https://reactnative.dev/docs/environment-setup)  
 
-npm i  
-npm install @react-navigation/native --save  
-npm i @react-navigation/bottom-tabs  
-npm i @react-navigation/bottom-tabs --save  
-npm install react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view --save  
-react-native link  
+## puis lancez les commandes suivantes : 
+
+    npm react-native-cli
+    npm i  
+    react-native link  
+
+## Et enfin pour démarer l'application :  
+
+    npm run android
 
 # Dependencies
 [React navigation stack](https://reactnavigation.org/docs/hello-react-navigation/)  
 [React navigation dependencies](https://reactnavigation.org/docs/getting-started)  
 [Formik](https://jaredpalmer.com/formik/docs/overview)  
 [React native elements](https://react-native-elements.github.io/react-native-elements/docs/getting_started.html)
-
-# Run
-Android : 
-    
-    npx react-native run-android
-    npm run android
 
 # React native node module bug load
 
