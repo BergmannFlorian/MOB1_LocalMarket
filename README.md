@@ -4,11 +4,12 @@ Module CPNV MOB1
 # Installation
 [React Native CLI Quickstart](https://reactnative.dev/docs/environment-setup)  
 
-npm i
-npm i @react-navigation/bottom-tabs
-npm i @react-navigation/bottom-tabs --save
-npm install react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view --save
-react-native link
+npm i  
+npm install @react-navigation/native --save  
+npm i @react-navigation/bottom-tabs  
+npm i @react-navigation/bottom-tabs --save  
+npm install react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view --save  
+react-native link  
 
 # Dependencies
 [React navigation stack](https://reactnavigation.org/docs/hello-react-navigation/)  
