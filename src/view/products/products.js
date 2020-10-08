@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { ActivityIndicator, StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { ActivityIndicator, StyleSheet, View, TouchableOpacity, Text, Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { FlatList } from 'react-native-gesture-handler';
 import { Image } from 'react-native-elements';
@@ -12,8 +12,10 @@ export const ProductsView = ({ navigation }) => {
     async function getProducts() {
         var token = await AsyncStorage.getItem('@localmarket:token');
         const res = await axios.get(`${global.dbUrl}/api/products`, { headers: { Authorization: `Bearer ${token}` } });
-        setProducts(res.data.data);
-        setLoading(false);
+        if(res.status == 200){
+            setProducts(res.data.data);
+            setLoading(false);
+        }else Alert.alert("Erreur de chargement, si le problème persiste, merci de conctacter le support")
     };
 
     return (
@@ -26,7 +28,7 @@ export const ProductsView = ({ navigation }) => {
                             <Image style={styles.picture} source={{ uri: `${global.dbUrl}/storage/pictures/${item.picture}` }} />
                             <View style={styles.informations}>
                                 <Text style={styles.title} numberOfLines={2}>{item.name}</Text>
-                                <Text style={styles.lastUpdate} numberOfLines={1} ellipsizeMode="clip" >{item.updatedAt}</Text>
+                                <Text style={styles.lastUpdate} numberOfLines={1} ellipsizeMode="clip" >{item.updated_at}</Text>
                                 <Text style={styles.description} ellipsizeMode="tail" numberOfLines={1}>{item.details}</Text>
                                 <Text style={styles.stock} >📦 {item.stock} disponibles(s)</Text>
                                 <Text style={styles.price} >💰 {item.price} CHF / {item.unit}</Text>
@@ -84,7 +86,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         right: 15,
         top: 8,
-        width: 65,
+        width: 60,
         fontSize: 12,
         overflow: "hidden",
         color: "rgba(0, 0, 0, 0.6)"

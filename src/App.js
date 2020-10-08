@@ -11,12 +11,12 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-
-import UserStack from './user';
-import ProductsStack from './products';
+import UserStack from './stack/user';
+import ProductsStack from './stack/products';
 import { HelpView } from './view/help';
 
 const Tab = createBottomTabNavigator();
+console.disableYellowBox = true;
 
 function App() {
   return (

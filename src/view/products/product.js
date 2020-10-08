@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Dimensions, ActivityIndicator, StyleSheet, View, Text, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import { FlatList } from 'react-native-gesture-handler';
 import { Image } from 'react-native-elements';
 
 export const ProductView = ({ route, navigation }) => {
@@ -12,6 +13,7 @@ export const ProductView = ({ route, navigation }) => {
         var token = await AsyncStorage.getItem('@localmarket:token');
         const res = await axios.get(`${global.dbUrl}/api/products/${productId}`, { headers: { Authorization: `Bearer ${token}` } });
         setProduct(res.data.data);
+        console.log(res.data.data);
         setLoading(false);
     };
 
@@ -29,15 +31,16 @@ export const ProductView = ({ route, navigation }) => {
                 </ScrollView>
                 <View style={styles.providerGroup}>
                     <Text style={styles.providerTitle}>Fournisseur(s):</Text>
-                    <ScrollView style={styles.providers}>
-                        {/* {getProviders().map(provider => <Text>{provider}</Text>)} */}
-                        <Text style={styles.provider}>Provider One</Text>
-                        <Text style={styles.provider}>Provider Two</Text>
-                        <Text style={styles.provider}>Provider Three</Text>
-                        <Text style={styles.provider}>Provider Three</Text>
-                        <Text style={styles.provider}>Provider Three</Text>
-                        <Text style={[styles.provider, styles.noBorders]}>Provider Three</Text>
-                    </ScrollView>
+                    <FlatList
+                        data={product.suppliers}
+                        ListEmptyComponent={() => (
+                            <Text>Aucun fournisseur</Text>
+                        )}
+                        renderItem={({ item }) => (
+                            <Text style={styles.provider}>{item.company_name}</Text>
+                        )}
+                        keyExtractor={item => item.pivot.supplier_id}
+                    />
                 </View>                    
             </View>
         }
@@ -58,12 +61,11 @@ const styles = StyleSheet.create({
     productBackground: {
         marginTop: 20,
         width: Dimensions.get("window").width - 20,
-        height: Dimensions.get("window").height - 120,
         padding: 40
     },
     picture: {
         width: "100%",
-        height: 150,
+        height: 400,
         resizeMode: 'contain',
         overflow: "hidden",
         borderRadius: 100,

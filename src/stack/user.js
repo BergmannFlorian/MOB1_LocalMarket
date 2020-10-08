@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { LoginView } from './view/user/login';
-import { MeView } from './view/user/me';
-import { RegisteryView } from './view/user/registery';
+import { LoginView } from '../view/user/login';
+import { MeView } from '../view/user/me';
+import { RegisteryView } from '../view/user/registery';
 
 const Stack = createStackNavigator();
 
