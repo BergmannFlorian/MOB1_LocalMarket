@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import { StyleSheet, View, Text, Button, AsyncStorage} from 'react-native';
+import { StyleSheet, View, Text, Button} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export const HomeView = ({ navigation }) => {
   

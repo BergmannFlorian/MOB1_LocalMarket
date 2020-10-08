@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { ActivityIndicator, StyleSheet, View, TouchableOpacity, Text, AsyncStorage } from 'react-native';
+import { Dimensions, ActivityIndicator, StyleSheet, View, Text, ScrollView } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import { FlatList } from 'react-native-gesture-handler';
 import { Image } from 'react-native-elements';
 
 export const ProductView = ({ route, navigation }) => {
@@ -11,22 +13,36 @@ export const ProductView = ({ route, navigation }) => {
         var token = await AsyncStorage.getItem('@localmarket:token');
         const res = await axios.get(`${global.dbUrl}/api/products/${productId}`, { headers: { Authorization: `Bearer ${token}` } });
         setProduct(res.data.data);
+        console.log(res.data.data);
         setLoading(false);
     };
 
     return (
     <View>
         {isLoading ? <ActivityIndicator/> :
-            <TouchableOpacity style={styles.product}>
-            <Image style={styles.picture} source={{ uri: `${global.dbUrl}/storage/pictures/${product.picture}` }} />
-            <View style={styles.informations}>
-                <Text style={styles.title} numberOfLines={2}>{product.name}</Text>
-                <Text style={styles.lastUpdate} numberOfLines={1} ellipsizeMode="clip" >{product.updatedAt}</Text>
-                <Text style={styles.description} ellipsizeMode="tail" numberOfLines={1}>{product.details}</Text>
-                <Text style={styles.stock} >📦 {product.stock} disponibles(s)</Text>
-                <Text style={styles.price} >💰 {product.price} CHF / {product.unit}</Text>
+            <View style={styles.productBackground}>
+                <Image source={{ uri: `${global.dbUrl}/storage/pictures/${product.picture}` }} style={styles.picture} />
+                <View style={styles.details}>
+                    <Text>💰 {product.price} CHF / {product.unit}</Text>
+                    <Text>📦 {product.stock} disponibles(s)</Text>
+                </View>
+                <ScrollView style={styles.description}>
+                    <Text style={styles.descriptionText}>{product.details}</Text>
+                </ScrollView>
+                <View style={styles.providerGroup}>
+                    <Text style={styles.providerTitle}>Fournisseur(s):</Text>
+                    <FlatList
+                        data={product.suppliers}
+                        ListEmptyComponent={() => (
+                            <Text>Aucun fournisseur</Text>
+                        )}
+                        renderItem={({ item }) => (
+                            <Text style={styles.provider}>{item.company_name}</Text>
+                        )}
+                        keyExtractor={item => item.pivot.supplier_id}
+                    />
+                </View>                    
             </View>
-        </TouchableOpacity>
         }
     </View>
   );
@@ -34,75 +50,74 @@ export const ProductView = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
     background: {
-        backgroundColor: "rgba(200, 200, 200, 0.5)",        
-        borderColor: 'transparent',
-        marginTop: 3,
-        borderWidth: 1,
-        color: 'white',
-        borderRadius: 1,        
-        shadowColor: 'black',
-        shadowOpacity: 10,
-        elevation: 2,
-        padding: 10,
-    },
-    product: {        
         flex: 1,
-        flexDirection: "row",
-        justifyContent: "flex-start",
+        width: null,
+        height: Dimensions.get('window').height,
+    },
+    detailProduct: {
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    productBackground: {
+        marginTop: 20,
+        width: Dimensions.get("window").width - 20,
+        padding: 40
     },
     picture: {
-        borderColor: "rgba(0, 0, 0, 0.2)", //TODO to remove later
-        backgroundColor: "white",
-        borderWidth: 1,
-        width: 150,
-        height: 150,
+        width: "100%",
+        height: 400,
         resizeMode: 'contain',
-        overflow:"hidden"
-    },
-    
-    informations: {
-        flex:1,
-        padding: 15,
-        paddingTop: 5
-    },
-    title: {     
-        width: "70%",
-        fontSize: 15,
-        textDecorationLine: "underline",
-        fontStyle: 'italic',
-        textTransform: "capitalize",
-    },
-    lastUpdate: {
-        position: "absolute",
-        right: 15,
-        top: 8,
-        width: 65,
-        fontSize: 12,
         overflow: "hidden",
-        color: "rgba(0, 0, 0, 0.6)"
+        borderRadius: 100,
+    },
+    details: {
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginVertical: 20
     },
     description: {
-        paddingTop: 15,
-        paddingBottom: 15,
+        height: "20%",
+        marginBottom: 20,
     },
-    stock: {
-        height: 40, 
+    descriptionText: {
+        lineHeight: 25,
     },
-    price:{
+    providerGroup: {
+        borderWidth: 1,
+        borderColor: "transparent",
+        borderTopColor: "rgba(0, 0, 0, 0.2)",
+        paddingTop: 20,
+    },
+    providerTitle: {
+        fontSize: 20,
+        textDecorationLine: "underline",
+        marginBottom: 10
+    },
+    providers: {        
+        height: 100,
+    },
+    provider: {
+        padding: 2,
+        paddingLeft: 20,
+        borderWidth: 1,
+        borderColor: "transparent",
+        borderBottomColor: "rgba(0, 0, 0, 0.2)",        
+    },
+    noBorders: {
+        borderBottomColor: "transparent",
+    },
+    market: {
         position: "absolute",
-        left: 15,
-        bottom: 5
-    },
-    market: {        
-        position: "absolute",
-        right: 15,
-        bottom: 15,
+        right: 20,
+        top: 20,
         width: 40,
         height: 40,
         paddingTop: 7,
         paddingLeft: 2,
         borderRadius: 100,
         overflow:"hidden",
-        backgroundColor: "rgba(0, 0, 255, 0.4)",
+        backgroundColor: "rgb(109, 116, 220)",
+
     }
 });
