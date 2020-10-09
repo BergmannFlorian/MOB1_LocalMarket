@@ -17,25 +17,15 @@ export const ProductView = ({ route, navigation }) => {
         setLoading(false);
     };
 
-    function addToBasket(id){
+    async function addToBasket(id){
         setAddBasket(true);
-        var purchases = await AsyncStorage.getItem('@localmarket:basket');
+        var purchases = JSON.parse(await AsyncStorage.getItem('@localmarket:basket'));
         if(purchases == null)purchases = new Array;
-        if(purchases.find(product => product.product_id == id) != undefined){
+        if(purchases.find(product => product.product_id == id) == undefined){
             purchases.push({product_id: id, quantity: 0});
-            AsyncStorage.setItem('@localmarket:basket', purchases);
+            AsyncStorage.setItem('@localmarket:basket', JSON.stringify(purchases));
         }
-        console.log(purchases);
         setAddBasket(false);
-    }
-
-    function removeFromBasket(id){
-        var purchases = await AsyncStorage.getItem('@localmarket:basket');
-        if(purchases != null){
-            purchases = purchases.filter(product => product.product_id != id);
-            AsyncStorage.setItem('@localmarket:basket', purchases);
-        }
-        console.log(purchases);
     }
 
     return (
@@ -51,7 +41,7 @@ export const ProductView = ({ route, navigation }) => {
                     <Text style={styles.descriptionText}>{product.details}</Text>
                 </ScrollView>
                 {isAddBasket ? <ActivityIndicator/> :
-                    <Button title="Login" onPress={() => addToBasket(product.id)}/>
+                    <Button title="Ajouter au panier" onPress={() => addToBasket(product.id)}/>
                 }
                 <View style={styles.providerGroup}>
                     <Text style={styles.providerTitle}>Fournisseur(s):</Text>
