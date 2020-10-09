@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Dimensions, ActivityIndicator, StyleSheet, View, Text, ScrollView } from 'react-native';
+import { Dimensions, ActivityIndicator, StyleSheet, View, Text, ScrollView, Button } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { FlatList } from 'react-native-gesture-handler';
 import { Image } from 'react-native-elements';
 
 export const ProductView = ({ route, navigation }) => {
     const [isLoading, setLoading] = useState(true);
+    const [isAddBasket, setAddBasket] = useState(false);
     const [product, setProduct] = React.useState(async () => getProduct(route.params));
     
     async function getProduct(productId) {
@@ -15,6 +16,27 @@ export const ProductView = ({ route, navigation }) => {
         setProduct(res.data.data);
         setLoading(false);
     };
+
+    function addToBasket(id){
+        setAddBasket(true);
+        var purchases = await AsyncStorage.getItem('@localmarket:basket');
+        if(purchases == null)purchases = new Array;
+        if(purchases.find(product => product.product_id == id) != undefined){
+            purchases.push({product_id: id, quantity: 0});
+            AsyncStorage.setItem('@localmarket:basket', purchases);
+        }
+        console.log(purchases);
+        setAddBasket(false);
+    }
+
+    function removeFromBasket(id){
+        var purchases = await AsyncStorage.getItem('@localmarket:basket');
+        if(purchases != null){
+            purchases = purchases.filter(product => product.product_id != id);
+            AsyncStorage.setItem('@localmarket:basket', purchases);
+        }
+        console.log(purchases);
+    }
 
     return (
     <View>
@@ -28,6 +50,9 @@ export const ProductView = ({ route, navigation }) => {
                 <ScrollView style={styles.description}>
                     <Text style={styles.descriptionText}>{product.details}</Text>
                 </ScrollView>
+                {isAddBasket ? <ActivityIndicator/> :
+                    <Button title="Login" onPress={() => addToBasket(product.id)}/>
+                }
                 <View style={styles.providerGroup}>
                     <Text style={styles.providerTitle}>Fournisseur(s):</Text>
                     <FlatList
