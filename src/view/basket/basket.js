@@ -2,31 +2,35 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import { FlatList } from 'react-native-gesture-handler';
-import { StyleSheet, View, Text, Button} from 'react-native';
+import { StyleSheet, View, Text, Button, Alert} from 'react-native';
 
 export const BasketView = ({ navigation }) => {
   const [isLoading, setLoading] = useState(true);
-  const [listProducts, setListProducts] = React.useState(async () => getProducts());
-  const [token, setToken] = useState("");
   const [products, setProducts] = useState(new Array);
+  const [listProducts, setListProducts] = React.useState(async () => getProducts());
 
   async function getProducts() {
-      var toke_n = await AsyncStorage.getItem('@localmarket:token');
-      setToken(toke_n);
-      const res = await axios.get(`${global.dbUrl}/api/products`, { headers: { Authorization: `Bearer ${token}` } });
-      if(res.status == 200){
-        setListProducts(res.data.data);
-        var purchases = JSON.parse(await AsyncStorage.getItem('@localmarket:basket'));
-        if(purchases != null){
-          var product_s = new Array; 
-          for (var index in purchases) {
-            product_s.push(listProducts.find(product => product.id == purchases[index].product_id));
-            setListProducts(listProducts.filter(product => product.id == purchases[index].product_id));
+    var token = await AsyncStorage.getItem('@localmarket:token');
+    const res = await axios.get(`${global.dbUrl}/api/products`, { headers: { Authorization: `Bearer ${token}` } });
+    var temp_listProducts = res.data.data;
+    var purchases = JSON.parse(await AsyncStorage.getItem('@localmarket:basket'));
+
+    if(res.status == 200){
+
+      if(purchases != null){
+        var temp_products = new Array;
+        for (var index in purchases) {
+          var product = temp_listProducts.find(product => product.id == purchases[index].product_id);
+          if(product != undefined){
+            temp_products.push(product);
+            temp_listProducts = temp_listProducts.filter(product => product.id != purchases[index].product_id);
           }
-          setProducts(product_s);
         }
-        setLoading(false);
-      }else Alert.alert("Erreur de chargement, si le problème persiste, merci de conctacter le support")
+        setProducts(temp_products);
+      }
+      setListProducts(temp_listProducts);
+      setLoading(false);
+    }else Alert.alert("Erreur de chargement, si le problème persiste, merci de conctacter le support")
   };
 
   async function addToBasket(id){
