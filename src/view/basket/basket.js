@@ -9,9 +9,11 @@ import {Picker} from '@react-native-picker/picker';
 export const BasketView = ({ navigation }) => {
   const [isLoading, setLoading] = useState(true);
   const [products, setProducts] = useState(new Array);
+  const [total, setTotal] = useState(0);
   const [listProducts, setListProducts] = React.useState(async () => getProducts(), []);
 
   async function getProducts() {
+    var temp_total = 0;
     var token = await AsyncStorage.getItem('@localmarket:token');
     const res = await axios.get(`${global.dbUrl}/api/products`, { headers: { Authorization: `Bearer ${token}` } });
     var temp_listProducts = res.data.data;
@@ -23,12 +25,14 @@ export const BasketView = ({ navigation }) => {
           var product = temp_listProducts.find(product => product.id == purchases[index].product_id);
           if(product != undefined){
             product.quantity = purchases[index].quantity
+            temp_total+=(product.quantity*product.price);
             //move product from list to basket
             temp_products.push(product);
             temp_listProducts = temp_listProducts.filter(product => product.id != purchases[index].product_id);
           }
         }
         setProducts(temp_products);
+        setTotal(arround100(temp_total));
       }
       setListProducts(temp_listProducts);
     }else Alert.alert("Erreur de chargement, si le problème persiste, merci de conctacter le support")
@@ -41,7 +45,7 @@ export const BasketView = ({ navigation }) => {
     if(purchases.find(product => product.product_id == id) == undefined){
       purchases.push({product_id: id, quantity: 0});
       var temp_products = products;
-      product = listProducts.find(product => product.id == id)
+      var product = listProducts.find(product => product.id == id)
       product.quantity = 0;
       temp_products.push(product);
       AsyncStorage.setItem('@localmarket:basket', JSON.stringify(purchases));
@@ -56,6 +60,7 @@ export const BasketView = ({ navigation }) => {
     AsyncStorage.setItem('@localmarket:basket', JSON.stringify(purchases.filter(product => product.product_id != id)));
     setProducts(products.filter(product => product.id != id));
     setListProducts(temp_listProducts);
+    getProducts();
   }
 
   async function updateQuantity(id, quantity){
@@ -65,6 +70,10 @@ export const BasketView = ({ navigation }) => {
       AsyncStorage.setItem('@localmarket:basket', JSON.stringify(purchases));
       getProducts();
     }
+  }
+
+  function arround100(value){
+    return Math.round(value*100)/100;
   }
 
   async function purgeBasket(){
@@ -125,6 +134,10 @@ export const BasketView = ({ navigation }) => {
         ) : null}
       </View>
       <Button title="Vider le panier" onPress={() => purgeBasket()}/>
+      <Text style={styles.total}>Prix total arrondi au centième : {total} CHF</Text>
+      <View style={styles.button_confirm}>
+        <Button title="Confirmer l'achat"/>
+      </View>
     </View>  
   );
 };
@@ -237,15 +250,25 @@ const styles = StyleSheet.create({
     bottom: 8,
   },
   label: {
-      top: 5
+    top: 5
   },
   textInput: {
-      textAlign: "center",
-      position: "relative",
-      left: 5,
-      padding: 0,
-      backgroundColor: 'rgba(150, 150, 150, 0.45)',
-      width: 100,
-      paddingLeft: 10
+    textAlign: "center",
+    position: "relative",
+    left: 5,
+    padding: 0,
+    backgroundColor: 'rgba(150, 150, 150, 0.45)',
+    width: 100,
+    paddingLeft: 10
   },
+  total: {
+    textAlign: "center",
+    fontSize: 20,
+    top: 50,
+    backgroundColor: "rgb(230, 230, 230)",
+    padding: 20
+  },
+  button_confirm:{
+    top:50
+  }
 });
